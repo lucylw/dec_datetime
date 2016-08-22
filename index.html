@@ -2,44 +2,7 @@
 <meta charset="utf-8">
 
 <head>
-  
-<style> /* set the CSS */
-
-body {
-  background-color: black;
-}
-
-h1 {
-  font-size: 60px;
-}
-
-h2 {
-  font-size: 24px;
-  line-height: 0.5;
-}
-
-p {
-  font-size: 12px;
-  line-height: 0.8;
-}
-
-body {
-  font-family: "Helvetica Neue", Helvetica, sans-serif;
-  font-size: 12px;
-  color: #dddddd;
-  font-style: normal;
-  font-variant: normal;
-}
-
-#datetime
- {
-  display: block;
-  margin: 0 auto;
-  background: black;
- }
-
-</style>
-
+<link rel="stylesheet" type="text/css" href="style.css">
 <title>Convert to a more logical date and time system</title>
 </head>
 
@@ -53,12 +16,14 @@ body {
   </div>
   <p align="center"> Tired of the nonsensical Gregorian calendar and 24-hour clock? </p>
   <p align="center"> Switch to a 365-day year and decimal clock (10 hours in a day with 100 minutes each). </p>
+  <p align="center"> <a href="https://github.com/lucylw/dec_datetime">GitHub Repo</a> </p>
 </div>
 
 <script>
 
 // gather date string and convert to 365 day year (leap years have 366 days)
 function getDateStr() {
+
   monthDays = [31,28,31,30,31,30,31,31,30,31,30,31];
   now = new Date();
   leap = 0;
@@ -80,6 +45,7 @@ function getDateStr() {
 
 // gather time string and convert to decimal time
 function getTimeStr() {
+
   now = new Date();
 
   // get total minutes into a day: 24*60 = 1440 minutes
@@ -104,17 +70,25 @@ function getTimeStr() {
   }
 
   return hours10 + ":" + paddingMin + minutes10 + ":" + paddingSec + seconds10;
+
 }
 
 // clear canvas and draw clock
 function showClock() {
+
+  // get date and time strings
   dateStr = getDateStr();
   timeStr = getTimeStr();
+
+  // clear canvas section
   context.clearRect(150, 0, canvas.width-300, canvas.height);
+
+  // draw values
   context.font = "150px sans-serif";
   context.fillText(dateStr,canvas.width/2,canvas.height/4+70);
   context.font = "80px sans-serif";
   context.fillText(timeStr,canvas.width/2,3*canvas.height/4);
+
 }
 
 var canvas = document.getElementById("datetime");
