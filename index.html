@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+  
+<style> /* set the CSS */
+
+body {
+  background-color: black;
+}
+
+h1 {
+  font-size: 60px;
+}
+
+h2 {
+  font-size: 24px;
+  line-height: 0.5;
+}
+
+p {
+  font-size: 12px;
+  line-height: 0.8;
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 12px;
+  color: #dddddd;
+  font-style: normal;
+  font-variant: normal;
+}
+
+#datetime
+ {
+  display: block;
+  margin: 0 auto;
+  background: black;
+ }
+
+</style>
+
+<title>Convert to a more logical date and time system</title>
+</head>
+
+<body>
+
+<div id="main-wrapper">
+  <h1 align="center"> (DEC)LOCK </h1>
+  <h2 align="center"> Time-keeping for modern humans </h2>
+  <div id="datetime-wrapper" align="center">
+    <canvas id="datetime" width="600" height="400"></canvas>
+  </div>
+  <p align="center"> Tired of the nonsensical Gregorian calendar and 24-hour clock? </p>
+  <p align="center"> Switch to a 365-day year and decimal clock (10 hours in a day with 100 minutes each). </p>
+</div>
+
+<script>
+
+// gather date string and convert to 365 day year (leap years have 366 days)
+function getDateStr() {
+  monthDays = [31,28,31,30,31,30,31,31,30,31,30,31];
+  now = new Date();
+  leap = 0;
+
+  if (now.getFullYear() % 4 == 0) {
+    leap = 1;
+  }
+
+  day10 = monthDays.slice(0,now.getMonth()).reduce(function(a,b) { return a+b; }) + now.getDate();
+  if (now.getMonth()+1 > 2) {
+    day10 += leap;
+  }
+
+  return day10;
+
+  // print actual date
+  // return now.getFullYear() + '.' + (now.getMonth()+1) + '.' + now.getDate();
+}
+
+// gather time string and convert to decimal time
+function getTimeStr() {
+  now = new Date();
+
+  // get total minutes into a day: 24*60 = 1440 minutes
+  // ratio is 1440 minutes to 1000 minutes according to decimal clock
+  totalMin24 = now.getHours()*60 + now.getMinutes();
+  totalMin10 = totalMin24 * 1000/1440;
+  hours10 = Math.floor(totalMin10/100);
+  minutes10 = Math.floor(totalMin10 % 100);
+  seconds10 = Math.floor(now.getSeconds()*100/60);
+
+  // padding string for minutes and seconds
+  if (minutes10<10) {
+    paddingMin = "0";
+  } else {
+    paddingMin = "";
+  }
+
+  if (seconds10<10) {
+    paddingSec = "0";
+  } else {
+    paddingSec = "";
+  }
+
+  return hours10 + ":" + paddingMin + minutes10 + ":" + paddingSec + seconds10;
+}
+
+// clear canvas and draw clock
+function showClock() {
+  dateStr = getDateStr();
+  timeStr = getTimeStr();
+  context.clearRect(150, 0, canvas.width-300, canvas.height);
+  context.font = "150px sans-serif";
+  context.fillText(dateStr,canvas.width/2,canvas.height/4+70);
+  context.font = "80px sans-serif";
+  context.fillText(timeStr,canvas.width/2,3*canvas.height/4);
+}
+
+var canvas = document.getElementById("datetime");
+var context = canvas.getContext("2d");
+var today = new Date();
+
+context.textAlign = "center";
+
+context.fillStyle = "#bbbbbb";
+context.font = "40px sans-serif";
+context.fillText("TODAY",80,110);
+context.fillText("is day",80,160);
+context.fillText("of year",canvas.width-90,110);
+context.fillText(today.getFullYear(),canvas.width-90,160);
+
+context.fillStyle = "#eeeeee";
+
+// refresh every decimal second -- doesn't work well...
+setInterval(showClock, 600);
+
+</script>
+
+</body>
