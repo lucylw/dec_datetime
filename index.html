@@ -54,7 +54,7 @@ function getTimeStr() {
   totalMin10 = totalMin24 * 1000/1440;
   hours10 = Math.floor(totalMin10/100);
   minutes10 = Math.floor(totalMin10 % 100);
-  seconds10 = Math.floor(now.getSeconds()*10/60);
+  seconds10 = Math.floor((now.getSeconds()*1000 + now.getMilliseconds())/600)
 
   // padding string for minutes and seconds
   if (minutes10<10) {
@@ -63,7 +63,12 @@ function getTimeStr() {
     paddingMin = "";
   }
 
-  return hours10 + ":" + paddingMin + minutes10 + "." + seconds10;
+  if (seconds10<10) {
+    paddingSec = "0";
+  } else {
+    paddingSec = "";
+  }
+  return hours10 + ":" + paddingMin + minutes10 + ":" + paddingSec + seconds10;
 
   // print actual time
   // return now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
@@ -104,7 +109,7 @@ context.fillText(today.getFullYear(),canvas.width-90,160);
 context.fillStyle = "#eeeeee";
 
 // refresh every normal second
-setInterval(showClock, 1000);
+setInterval(showClock, 100);
 
 </script>
 
