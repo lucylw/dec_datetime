@@ -63,26 +63,44 @@ function getTimeStr() {
     paddingMin = "";
   }
 
-  return hours10 + ":" + paddingMin + minutes10 + "." + seconds10;
+  if (seconds10<10) {
+    paddingSec = "0";
+  } else {
+    paddingSec = "";
+  }
+
+  return hours10 + ":" + paddingMin + minutes10 + "." + paddingSec + seconds10;
 
   // print actual time
   // return now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
 
 }
 
+// clear canvas and draw date
+function showDate() {
+
+  // get time strings
+  dateStr = getDateStr();
+
+  // clear canvas section
+  context.clearRect(150, 0, canvas.width-300, 200);
+
+  // draw value
+  context.font = "150px sans-serif";
+  context.fillText(dateStr,canvas.width/2,canvas.height/4+70);
+
+}
+
 // clear canvas and draw clock
 function showClock() {
 
-  // get date and time strings
-  dateStr = getDateStr();
+  // get time strings
   timeStr = getTimeStr();
 
   // clear canvas section
-  context.clearRect(150, 0, canvas.width-300, canvas.height);
+  context.clearRect(150, 200, canvas.width-300, canvas.height-200);
 
-  // draw values
-  context.font = "150px sans-serif";
-  context.fillText(dateStr,canvas.width/2,canvas.height/4+70);
+  // draw value
   context.font = "80px sans-serif";
   context.fillText(timeStr,canvas.width/2,3*canvas.height/4);
 
@@ -103,8 +121,12 @@ context.fillText(today.getFullYear(),canvas.width-90,160);
 
 context.fillStyle = "#eeeeee";
 
+showDate();
+showClock();
+
+setInterval(showDate, 5000);
 // refresh every normal second
-setInterval(showClock, 1000);
+setInterval(showClock, 100);
 
 </script>
 
