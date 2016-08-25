@@ -1,7 +1,7 @@
 <!DOCTYPE html>
+<head>
 <meta charset="utf-8">
 
-<head>
 <link rel="stylesheet" type="text/css" href="style.css">
 <title>Convert to a more logical date and time system</title>
 </head>
@@ -9,14 +9,14 @@
 <body>
 
 <div id="main-wrapper">
-  <h1 align="center"> DEC:LOCK </h1>
-  <h2 align="center"> Time-keeping for modern humans </h2>
-  <div id="datetime-wrapper" align="center">
+  <h1> DEC:LOCK </h1>
+  <h2> Time-keeping for modern humans </h2>
+  <div id="datetime-wrapper">
     <canvas id="datetime" width="600" height="400"></canvas>
   </div>
-  <p align="center"> Tired of the nonsensical Gregorian calendar and 24-hour clock? </p>
-  <p align="center"> Switch to a 365-day year and decimal clock (10 hours in a day with 100 minutes each). </p>
-  <p align="center"> <a href="https://github.com/lucylw/dec_datetime">GitHub Repo</a> </p>
+  <p> Tired of the nonsensical Gregorian calendar and 24-hour clock? </p>
+  <p> Switch to a 365-day year and decimal clock (10 hours in a day with 100 minutes each). </p>
+  <p> <a href="https://github.com/lucylw/dec_datetime">GitHub Repo</a> </p>
 </div>
 
 <script>
@@ -54,7 +54,7 @@ function getTimeStr() {
   totalMin10 = totalMin24 * 1000/1440;
   hours10 = Math.floor(totalMin10/100);
   minutes10 = Math.floor(totalMin10 % 100);
-  seconds10 = Math.floor(now.getSeconds()*10/60);
+  seconds10 = Math.floor((now.getSeconds()*1000 + now.getMilliseconds())/600)
 
   // padding string for minutes and seconds
   if (minutes10<10) {
@@ -116,8 +116,8 @@ context.fillStyle = "#bbbbbb";
 context.font = "40px sans-serif";
 context.fillText("TODAY",80,110);
 context.fillText("is day",80,160);
-context.fillText("of year",canvas.width-90,110);
-context.fillText(today.getFullYear(),canvas.width-90,160);
+context.fillText("of year",canvas.width-80,110);
+context.fillText(today.getFullYear(),canvas.width-80,160);
 
 context.fillStyle = "#eeeeee";
 
