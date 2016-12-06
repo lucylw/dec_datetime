@@ -51,7 +51,7 @@ function getTimeStr() {
   // get total minutes into a day: 24*60 = 1440 minutes
   // ratio is 1440 minutes to 1000 minutes according to decimal clock
   totalMin24 = now.getHours()*60 + now.getMinutes();
-  totalMin10 = totalMin24 * 1000/1440;
+  totalMin10 = totalMin24 * 100/144;
   hours10 = Math.floor(totalMin10/100);
   minutes10 = Math.floor(totalMin10 % 100);
   seconds10 = Math.floor((now.getSeconds()*1000 + now.getMilliseconds())/600)
