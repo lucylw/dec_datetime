@@ -24,7 +24,7 @@
 // gather date string and convert to 365 day year (leap years have 366 days)
 function getDateStr() {
 
-  monthDays = [31,28,31,30,31,30,31,31,30,31,30,31];
+  monthDays = [0,31,28,31,30,31,30,31,31,30,31,30,31];
   now = new Date();
   leap = 0;
 
@@ -32,8 +32,8 @@ function getDateStr() {
     leap = 1;
   }
 
-  day10 = monthDays.slice(0,now.getMonth()).reduce(function(a,b) { return a+b; }) + now.getDate();
-  if (now.getMonth()+1 > 2) {
+  day10 = monthDays.slice(0,now.getMonth()+1).reduce(function(a,b) { return a+b; }) + now.getDate();
+  if (now.getMonth()+2 > 2) {
     day10 += leap;
   }
 
